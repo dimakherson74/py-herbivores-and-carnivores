@@ -1,6 +1,3 @@
-# from time import clock_settime
-
-
 class Animal:
     alive = []
 
@@ -12,9 +9,9 @@ class Animal:
         self.hidden = hidden
         Animal.alive.append(self)
 
-    @classmethod
-    def __repr__(cls) -> str:
-        return ", ".join(str(animal.to_dict()) for animal in cls.alive)
+    @staticmethod
+    def list_alive_animals() -> str:
+        return ", ".join(str(animal.to_dict()) for animal in Animal.alive)
 
     def to_dict(self) -> dict:
         return {"Name": self.name,
@@ -34,8 +31,9 @@ class Herbivore(Animal):
 class Carnivore(Animal):
 
     def bite(self, herbivore_animal: Herbivore) -> None:
-        if not herbivore_animal.hidden:
-            herbivore_animal.health -= 50
+        if isinstance(herbivore_animal, Herbivore):
+            if not herbivore_animal.hidden:
+                herbivore_animal.health -= 50
 
-        if herbivore_animal.health <= 0:
-            Animal.alive.remove(herbivore_animal)
+            if herbivore_animal.health <= 0:
+                Animal.alive.remove(herbivore_animal)
